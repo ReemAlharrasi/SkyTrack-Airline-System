@@ -10,10 +10,10 @@ INSERT INTO airport (IATA_code, Name, City, Country) VALUES
 
 INSERT INTO Aircraft (Registration_Number,Model,Manufacturer,Capacity,ManufactureYear) VALUES
 ('A4O-DA','737-800','Boeing',189,2015),
-('A4O-DB','A330-300','Airbus',189,2017),
-('A4O-DC','787-9 Dreamliner','Boeing',189,2019),
-('A4O-DD','E175','Embraer',189,2016),
-('A4O-DE','A320neo','Airbus',189,2021);
+('A4O-DB','A330-300','Airbus',296,2017),
+('A4O-DC','787-9 Dreamliner','Boeing',262,2019),
+('A4O-DD','E175','Embraer',88,2016),
+('A4O-DE','A320neo','Airbus',165,2021);
 
 INSERT INTO Flight (Flight_number,DepartureDateTime,ArrivalDateTime,Status,Aircraft_Registeration_Number,Departing_Airport_code,Arriving_Airport_code) VALUES
 ('SK101','20120618 08:00:00 AM','20261001 09:15:00 AM','Scheduled', 1 , 1, 3),
