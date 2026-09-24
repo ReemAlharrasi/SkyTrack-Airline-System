@@ -51,10 +51,33 @@ GROUP BY f.Flight_number, o.Name, d.Name
 ORDER BY Total_Bookings DESC;
 
 -- 7. For each booking class, show the total revenue, the number of bookings, the average price, the highest price, and the lowest price.
+SELECT b.Booking_id, SUM(b.price_paid) AS total_revenue, COUNT(b.Booking_id) AS Total_Boookings, AVG(b.price_paid) AS Average_price, MAX(b.price_paid) AS highest_price, MIN(b.price_paid) AS lowest_price
+FROM Booking b
+GROUP BY b.Booking_id;
 
 -- 8. List all passengers who booked a flight that is currently 'Cancelled'. Show the passenger name, flight number, and booking date.
+SELECT p.FullName, f.Flight_number, b.booking_date
+FROM Booking b
+JOIN Passenger p ON b.Passenger_id = p.Passenger_id
+JOIN Flight f ON b.Flight_id = f.Flight_id
+WHERE f.Status = 'Cancelled';
 
 -- 9. Show all flights that have at least one pilot and at least one flight attendant assigned. Display the flight number, total crew count, and departure datetime.
+SELECT f.Flight_number, COUNT(fc.Crew_id) AS Total_Crew, f.DepartureDateTime
+FROM Flight f
+JOIN Flight_crew fc ON f.Flight_id = fc.Flight_id
+JOIN Crew_Member cm ON fc.Crew_id = cm.Crew_id
+GROUP BY f.Flight_number, f.DepartureDateTime
+HAVING SUM(CASE WHEN cm.role = 'Pilot' THEN 1 ELSE 0 END) >= 1
+   AND SUM(CASE WHEN cm.role = 'Flight Attendant' THEN 1 ELSE 0 END) >= 1;
 
 -- 10. FINAL CHALLENGE: Show the complete flight summary — flight number, origin airport city, destination airport city, aircraft model, aircraft manufacturer, total passengers booked, total crew assigned, and total revenue. Order by total revenue from highest to lowest.
-
+SELECT f.Flight_number, ao.City AS Origin_City, ad.City AS Destination_City, ac.Model AS Aircraft_Model, ac.Manufacturer, COUNT(DISTINCT b.Booking_id) AS Total_Passengers, COUNT(DISTINCT fc.Crew_id) AS Total_Crew, ISNULL(SUM(b.price_paid), 0) AS Total_Revenue
+FROM Flight f
+JOIN Airport ao ON f.Departing_Airport_code = ao.Airport_id
+JOIN Airport ad ON f.Arriving_Airport_code = ad.Airport_id
+JOIN Aircraft ac ON f.Aircraft_Registeration_Number = ac.Aircraft_id
+LEFT JOIN Booking b ON f.Flight_id = b.Flight_id
+LEFT JOIN Flight_crew fc ON f.Flight_id = fc.Flight_id
+GROUP BY f.Flight_number, ao.City, ad.City, ac.Model, ac.Manufacturer
+ORDER BY Total_Revenue DESC;

@@ -19,21 +19,19 @@ SOLution: wrong order of columns and values
 
 
 DQL ===================================
+SELECT c.FullName, c.role
+FROM Crew_Member c
+JOIN Flight_crew fc ON fc.Crew_id=c.Crew_id
+JOIN Flight f ON f.Flight_id = fc.Flight_id
+HAVING f.Flight_number = 'SK101';
 
+Error:
+Msg 8121, Level 16, State 1, Line 21
+Column 'Flight.Flight_number' is invalid in the HAVING clause because it is not contained in either an aggregate function or the GROUP BY clause.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+Fix:
+Use WHERE instead
+-----------------
 
 SELECT b.Booking_id, SUM(b.price_paid) AS total_revenue, COUNT(b.Booking_id), AVG(b.price_paid), MAX(b.price_paid), MIN(b.price_paid)
 FROM Booking b;
