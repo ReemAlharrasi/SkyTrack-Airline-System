@@ -53,13 +53,7 @@ GROUP BY f.Flight_id, f.Flight_number
 HAVING COUNT(b.Booking_id) > 1;
 
 -- 9. Show the full details of all bookings — passenger name, flight number, origin airport, destination airport, class, and price paid.
-SELECT
-    p.FullName AS PassengerName,
-    f.Flight_number,
-    origin.Name AS OriginAirport,
-    destination.Name AS DestinationAirport,
-    b.Class,
-    b.price_paid
+SELECT p.FullName AS PassengerName, f.Flight_number, origin.Name AS OriginAirport, destination.Name AS DestinationAirport, b.Class, b.price_paid
 FROM Booking b
 JOIN Passenger p ON b.Passenger_id = p.Passenger_id
 JOIN Flight f ON b.Flight_id = f.Flight_id
